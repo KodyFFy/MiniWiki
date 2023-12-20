@@ -71,17 +71,17 @@ class miniWiki:
 	def createMenuBars(self):
 		bars = tk.Menu(self.window)
 
-		upperBarFund = tk.Menu(bars, tearoff=0)
+		self.upperBarFund = tk.Menu(bars, tearoff=0)
 		
-		bars.add_cascade(label="Wiki", menu=upperBarFund)
+		bars.add_cascade(label="Wiki", menu=self.upperBarFund)
 
-		upperBarFund.add_command(label="Найти", command=self.search, accelerator="Ctrl+F")
-		upperBarFund.add_separator()
-		upperBarFund.add_command(label="Добавить", command=self.insertInfo, accelerator="F2")
-		upperBarFund.add_command(label="Изменить", command=self.editInfo, accelerator="Ctrl+F2")
-		upperBarFund.add_command(label="Удалить", command=self.deleteObject, accelerator="F3")
-		upperBarFund.add_separator()
-		upperBarFund.add_command(label="Выход", command=self.closeApp, accelerator="F4")
+		self.upperBarFund.add_command(label="Найти", command=self.search, accelerator="Ctrl+F")
+		self.upperBarFund.add_separator()
+		self.upperBarFund.add_command(label="Добавить", command=self.insertInfo, accelerator="F2")
+		self.upperBarFund.add_command(label="Изменить", command=self.editInfo, accelerator="Ctrl+F2")
+		self.upperBarFund.add_command(label="Удалить", command=self.deleteObject, accelerator="F3")
+		self.upperBarFund.add_separator()
+		self.upperBarFund.add_command(label="Выход", command=self.closeApp, accelerator="F4")
 
 		self.window.bind("<F1>", lambda event: self.Content())
 		self.window.bind("<F2>", lambda event: self.insertInfo())
@@ -89,7 +89,8 @@ class miniWiki:
 		self.window.bind("<F3>", lambda event: self.deleteObject())
 		self.window.bind("<F4>", lambda event: self.closeApp())
 		self.window.bind("<Control-f>", lambda event: self.search())
-
+		self.window.bind("<F10>", self.showWikimenu)
+		
 		upperBarReference = tk.Menu(bars, tearoff=0)
 
 		bars.add_cascade(label="Справка", menu=upperBarReference)
@@ -99,8 +100,11 @@ class miniWiki:
 
 		self.window.config(menu=bars)
 
+	def showWikimenu(self, event=None):
+		self.upperBarFund.post(event.x_root, event.y_root)
+		
 	def creatHelpBar(self):
-		self.helpBar = tk.Label(self.window, text="F1 - Содержание, F2 - Добавить, Ctrl+F2 - Изменить, F3 - Удалить,  F4 - Закрыть, Ctrl+F - Поиск", relief=tk.SUNKEN, anchor=tk.W)
+		self.helpBar = tk.Label(self.window, text="F1 - Содержание, F2 - Добавить, Ctrl+F2 - Изменить, F3 - Удалить,  F4 - Закрыть, F10 - открыть меню,Ctrl+F - Поиск", relief=tk.SUNKEN, anchor=tk.W)
 		self.helpBar.pack(side=tk.BOTTOM, fill=tk.X)
 
 	def aboutApp(self):
